@@ -3,41 +3,49 @@
 * linked structure to build a stack.
 */
 
+/*
+ * The purpose of this file is to define a custom Stack data structure.
+ * It uses a linked structure (NodeInfo) to manage elements in a 
+ * Last-In, First-Out (LIFO) manner without using library functions.
+ */
 public class StackExpressions {
     private NodeInfo top; // Reference to the top of the stack
 
     // Constructor to initialize an empty stack
     public StackExpressions() {
-        this.top = null; // Sets the top of the stack to null
+        this.top = null; 
     }
 
     // Method to check if the stack is empty
     public boolean isEmpty() {
-        return top == null; // Returns true if the stack is empty
+        return top == null; 
     }
 
     // Method to push a new item onto the stack
     public void push(String info) {
-        NodeInfo newNode = new NodeInfo(info); // Create a new node with the given information
-        newNode.setNext(top); // Set the next reference of the new node to the current top
-        top = newNode; // Update the top reference to the new node
+        NodeInfo newNode = new NodeInfo(info); 
+        newNode.setNext(top); 
+        top = newNode; 
     }
 
-    // Method to pop an item from the stack
+    /* * Method to pop an item from the stack.
+     * Returns null if the stack is empty to allow the Converter 
+     * to handle the error gracefully without crashing.
+     */
     public String pop() {
-        if (isEmpty()) { // Check if the stack is empty before popping
-            throw new RuntimeException("Stack is empty"); // Throw an exception if trying to pop from an empty stack
+        if (isEmpty()) { 
+            return null; 
         }
-        String info = top.getInfo(); // Get the information from the top node
-        top = top.getNext(); // Update the top reference to the next node in the stack
-        return info; // Return the popped information
+        String info = top.getInfo(); 
+        top = top.getNext(); 
+        return info; 
     }
 
-    // Method to peek at the top item of the stack without removing it
+    // Method to peek at the top item without removing it
     public String peek() {
-        if (isEmpty()) { // Check if the stack is empty before peeking
-            throw new RuntimeException("Stack is empty"); // Throw an exception if trying to peek at an empty stack
+        if (isEmpty()) { 
+            return null;
         }
-        return top.getInfo(); // Return the information from the top node without modifying the stack
+        return top.getInfo(); 
     }
 }

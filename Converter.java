@@ -1,50 +1,68 @@
 /*
 * The purpose of this file is to convert an
-* infix expression to a postfix expression.
+* prefix expression to a postfix expression.
 */
 
+/**
+ * Converter.java
+ * High-performance Prefix to Postfix conversion.
+ */
 public class Converter {
-    // Method to convert an infix expression to a postfix expression
-    public String infixToPostfix(String infix) {
-        StackExpressions stack = new StackExpressions(); // Create a stack to hold operators
-        StringBuilder postfix = new StringBuilder(); // StringBuilder to build the postfix expression
 
-        for (char c : infix.toCharArray()) { // Iterate through each character in the infix expression
-            if (Character.isLetterOrDigit(c)) { // If the character is an operand (letter or digit)
-                postfix.append(c); // Append it directly to the postfix expression
-            } else if (c == '(') { // If the character is '(', push it onto the stack
+    public String prefixToPostfix(String prefix) {
+        StackExpressions stack = new StackExpressions();
+        
+        // Safety: If the line is empty, skip it
+        if (prefix == null || prefix.trim().isEmpty()) {
+            return "";
+        }
+
+        // STEP 1: Get the characters in REVERSE order
+        // This is the secret to converting Prefix iteratively.
+        char[] chars = prefix.toCharArray();
+        
+        // STEP 2: Process from the end of the string to the beginning
+        for (int i = chars.length - 1; i >= 0; i--) {
+            char c = chars[i];
+
+            // Ignore spaces - crucial for line 6
+            if (Character.isWhitespace(c)) {
+                continue;
+            }
+
+            if (isOperator(c)) {
+                // When we hit an operator, we need the last two operands we saw
+                String op1 = stack.pop();
+                String op2 = stack.pop();
+
+                // ERROR CHECK: If we don't have 2 operands, the prefix is wrong
+                if (op1 == null || op2 == null) {
+                    return "Error: Invalid Prefix Format (Missing operands for " + c + ")";
+                }
+
+                // CONCATENATE: Left Operand + Right Operand + Operator
+                // Note: op1 was the most recent thing pushed (the one closest to the operator)
+                String combined = op1 + op2 + c;
+                stack.push(combined);
+            } else {
+                // If it's a letter or number, it's an operand. Push it.
                 stack.push(String.valueOf(c));
-            } else if (c == ')') { // If the character is ')', pop from the stack until '(' is found
-                while (!stack.isEmpty() && !stack.peek().equals("(")) {
-                    postfix.append(stack.pop()); // Append popped operators to the postfix expression
-                }
-                stack.pop(); // Pop the '(' from the stack
-            } else { // If the character is an operator
-                while (!stack.isEmpty() && precedence(c) <= precedence(stack.peek().charAt(0))) {
-                    postfix.append(stack.pop()); // Pop operators with higher or equal precedence and append to postfix
-                }
-                stack.push(String.valueOf(c)); // Push the current operator onto the stack
             }
         }
 
-        while (!stack.isEmpty()) { // Pop any remaining operators from the stack and append to postfix
-            postfix.append(stack.pop());
+        // STEP 3: The result is the final item on the stack
+        String result = stack.pop();
+
+        // If something is still in the stack, there were too many letters
+        if (!stack.isEmpty()) {
+            return "Error: Invalid Prefix (Too many operands)";
         }
 
-        return postfix.toString(); // Return the final postfix expression as a string
+        return result;
     }
 
-    // Helper method to determine the precedence of operators
-    private int precedence(char operator) {
-        switch (operator) {
-            case '+':
-            case '-':
-                return 1; // Lowest precedence for addition and subtraction
-            case '*':
-            case '/':
-                return 2; // Higher precedence for multiplication and division
-            default:
-                return -1; // Return -1 for non-operator characters
-        }
+    private boolean isOperator(char c) {
+        // Includes the special $ and ^ exponent operators found in your input
+        return c == '+' || c == '-' || c == '*' || c == '/' || c == '$' || c == '^';
     }
 }
