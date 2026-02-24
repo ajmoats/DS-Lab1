@@ -1,14 +1,15 @@
-/*
-* The purpose of this file is to convert an
-* prefix expression to a postfix expression.
-*/
-
 /**
  * Converter.java
- * High-performance Prefix to Postfix conversion.
+ * Contains the logic for converting Prefix expressions to Postfix.
+ * Utilizes an iterative approach by processing the input string in reverse.
  */
-public class Converter {
 
+public class Converter {
+    /**
+     * Converts a prefix expression string into a postfix expression string.
+     * @param prefix The input prefix string (e.g., "+ AB").
+     * @return The resulting postfix string (e.g., "AB+"), or an error message.
+     */
     public String prefixToPostfix(String prefix) {
         StackExpressions stack = new StackExpressions();
         
@@ -17,21 +18,20 @@ public class Converter {
             return "";
         }
 
-        // STEP 1: Get the characters in REVERSE order
-        // This is the secret to converting Prefix iteratively.
+        // Get the characters in REVERSE order
         char[] chars = prefix.toCharArray();
         
-        // STEP 2: Process from the end of the string to the beginning
+        // Process from the end of the string to the beginning
         for (int i = chars.length - 1; i >= 0; i--) {
             char c = chars[i];
 
-            // Ignore spaces - crucial for line 6
+            // Ignore spaces in expressions
             if (Character.isWhitespace(c)) {
                 continue;
             }
 
             if (isOperator(c)) {
-                // When we hit an operator, we need the last two operands we saw
+                // At operator, get the last two operands seen
                 String op1 = stack.pop();
                 String op2 = stack.pop();
 
@@ -40,8 +40,8 @@ public class Converter {
                     return "Error: Invalid Prefix Format (Missing operands for " + c + ")";
                 }
 
-                // CONCATENATE: Left Operand + Right Operand + Operator
-                // Note: op1 was the most recent thing pushed (the one closest to the operator)
+                // Put together the Expression: Left Operand + Right Operand + Operator
+                // op1 was the most recent thing pushed (the one closest to the operator)
                 String combined = op1 + op2 + c;
                 stack.push(combined);
                 } else if (Character.isLetterOrDigit(c)) {
@@ -51,10 +51,9 @@ public class Converter {
             }
         }
 
-        // STEP 3: The result is the final item on the stack
         String result = stack.pop();
 
-        // If something is still in the stack, there were too many letters
+        // ERROR CHECK: If something is still in the stack, there were too many letters
         if (!stack.isEmpty()) {
             return "Error: Invalid Prefix (Too many operands)";
         }
@@ -62,8 +61,13 @@ public class Converter {
         return result;
     }
 
+    /**
+     * Determines if a character is a supported mathematical operator.
+     * @param c The character to check.
+     * @return true if character is +, -, *, /, $, or ^.
+     */
     private boolean isOperator(char c) {
-        // Includes the special $ and ^ exponent operators found in your input
+        // Includes the $ and ^ exponent operators
         return c == '+' || c == '-' || c == '*' || c == '/' || c == '$' || c == '^';
     }
 }
