@@ -1,4 +1,5 @@
 /**
+ * Author: Alexis Moats
  * Converter.java
  * Contains the logic for converting Prefix expressions to Postfix.
  * Utilizes an iterative approach by processing the input string in reverse.

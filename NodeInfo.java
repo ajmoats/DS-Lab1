@@ -1,4 +1,5 @@
 /**
+ * Author: Alexis Moats
  * NodeInfo.java
  * Represents a single node in a linked data structure.
  * Stores a String value and a reference to the next node.

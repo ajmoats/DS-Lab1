@@ -3,6 +3,7 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 
 /*
+* Author: Alexis Moats
 * The purpose of this file is to serve as a link between each of the 
 * helper files and the main method that is used to test the functionality of the helper files.
 */

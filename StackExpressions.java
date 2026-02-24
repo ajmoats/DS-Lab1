@@ -1,4 +1,5 @@
 /**
+ * Author: Alexis Moats
  * StackExpressions.java
  * A custom linked-list based stack implementation for managing Strings.
  * Follows Last-In-First-Out (LIFO) principles.
