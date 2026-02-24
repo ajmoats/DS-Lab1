@@ -44,9 +44,10 @@ public class Converter {
                 // Note: op1 was the most recent thing pushed (the one closest to the operator)
                 String combined = op1 + op2 + c;
                 stack.push(combined);
-            } else {
-                // If it's a letter or number, it's an operand. Push it.
+                } else if (Character.isLetterOrDigit(c)) {
                 stack.push(String.valueOf(c));
+                } else {
+                return "Error: Invalid character '" + c + "'";
             }
         }
 

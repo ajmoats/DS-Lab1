@@ -1,0 +1,33 @@
++AB
+-AB
+*AB
+/AB
+$AB
+
+-+ABC
+*+AB-CD
+/+AB*CD
+
+*-A/BC-/AKL
+
+- A B
+- A+BC
+- + A B C
+* - A B C
+
+ABC
++A B C
+*ABCD
+
++
++AB+
+*+
+-*
+
++A#B
++AB!
+*AB@
+
+L
+
++++++++++ABCDEFGHIJ

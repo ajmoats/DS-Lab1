@@ -16,7 +16,7 @@ public class Lab1 {
         PrintWriter writer = null;
 
         try {
-            File inputFile = new File("Required Input.txt");
+            File inputFile = new File("MyTests.txt");
             
             if (!inputFile.exists()) {
                 System.out.println("CRITICAL ERROR: 'Required Input.txt' NOT FOUND!");
